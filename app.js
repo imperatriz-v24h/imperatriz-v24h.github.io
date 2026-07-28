@@ -14,7 +14,7 @@
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQLsX4VZuxj_ziZXO4UmLKmd3l3ngpKwaNPcDicBCZoB63y5dP0VcVdH93uW731E9uPAPSOe-6pho-5/pub?output=csv";
 
 // WhatsApp de contato da empresa (formato internacional: 55 + DDD + número)
-const WHATSAPP = "5599988182666";
+const WHATSAPP = "5599992340520";
 
 // ---- Rótulos amigáveis para as escalas (0 a 5) --------------------------
 const ESCALAS = {
