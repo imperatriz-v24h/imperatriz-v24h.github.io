@@ -95,8 +95,11 @@
 
     /* ===================== IMPRESSÃO ===================== */
     @page { size: 13.5cm 18.5cm; margin: 0; }
+    /* Força a impressão das cores de fundo (senão o navegador remove o bordô
+       e o texto branco some). Vale mesmo sem marcar "Gráficos em segundo plano". */
+    .cartaz, .cartaz * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
     @media print {
-      body { background: #fff; padding: 0; }
+      html, body { background: #fff !important; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
       .controls { display: none; }
       .cartaz { box-shadow: none; margin: 0; page-break-after: always; }
     }
