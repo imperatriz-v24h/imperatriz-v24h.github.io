@@ -286,32 +286,31 @@ function classeTipo(tipo) {
   return { Tinto: "tag-tinto", Branco: "tag-branco", "Rosé": "tag-rose", Espumante: "tag-espumante" }[tipo] || "tag-tinto";
 }
 
-function miniBarra(rotulo, valor) {
-  return `
-    <div class="mini-linha">
-      <span class="mini-rotulo">${rotulo}</span>
-      <span class="barra"><span class="barra-fill" style="width:${(valor / 5) * 100}%"></span></span>
-    </div>`;
-}
-
 function cardVinho(v) {
   const card = el("div", "card");
   const selo = v.gelavel ? `<span class="selo-gelado">🧊 Gelado</span>` : "";
+  // A descrição fica em LARGURA TOTAL abaixo da garrafa (e não na coluna estreita
+  // ao lado dela): mesma informação em menos linhas, card mais baixo, rolagem menor.
+  // As barrinhas de doçura/corpo saíram daqui — sem legenda não diziam nada. Elas
+  // continuam inteiras (e com o nível escrito) na ficha do vinho.
+  const desc = v.descricao ? `<p class="card-desc">${v.descricao}</p>` : "";
+  const dica = v.combina_se_voce_gosta
+    ? `<p class="card-dica">👉 <b>Escolha este se você gosta</b> ${v.combina_se_voce_gosta}</p>` : "";
   card.innerHTML = `
-    <div class="card-foto">${garrafaHTML(v, "card")}</div>
-    <div class="card-info">
-      <div class="card-topo">
-        <span class="tag-tipo ${classeTipo(v.tipo)}">${v.tipo}</span>
-        ${selo}
+    <div class="card-linha">
+      <div class="card-foto">${garrafaHTML(v, "card")}</div>
+      <div class="card-info">
+        <div class="card-topo">
+          <span class="tag-tipo ${classeTipo(v.tipo)}">${v.tipo}</span>
+          ${selo}
+        </div>
+        <div class="card-nome">${v.nome}</div>
+        <div class="card-uva">${v.uva}</div>
+        <div class="card-origem">${bandeira(v.pais)} ${v.regiao}, ${v.pais}</div>
       </div>
-      <div class="card-nome">${v.nome}</div>
-      <div class="card-uva">${v.uva}</div>
-      <div class="mini-medidas">
-        ${miniBarra("Doçura", v.docura)}
-        ${miniBarra("Corpo", v.corpo)}
-      </div>
-      <div class="card-origem">${bandeira(v.pais)} ${v.regiao}, ${v.pais}</div>
     </div>
+    ${desc}
+    ${dica}
   `;
   card.addEventListener("click", () => abrirFicha(v.id));
   return card;

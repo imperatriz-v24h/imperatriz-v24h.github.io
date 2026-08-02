@@ -198,13 +198,14 @@ body {
   padding: 14px;
   cursor: pointer;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 14px;
+  flex-direction: column;
+  gap: 10px;
   transition: transform .15s, border-color .15s;
   position: relative;
   overflow: hidden;
 }
+/* Linha de cima do card: garrafa + identificação */
+.card-linha { display: flex; flex-direction: row; align-items: center; gap: 14px; }
 .card:hover { transform: translateY(-2px); border-color: var(--dourado); }
 .card-foto {
   flex: 0 0 auto;
@@ -259,13 +260,21 @@ body {
 }
 .card-nome { font-size: 16px; font-weight: 700; color: var(--texto); line-height: 1.2; }
 .card-uva { font-size: 13px; color: var(--texto-suave); }
-.card-origem { font-size: 12px; color: var(--texto-suave); margin-top: auto; }
+.card-origem { font-size: 12px; color: var(--texto-suave); margin-top: 2px; }
 
-.mini-medidas { display: grid; gap: 5px; margin-top: 4px; }
-.mini-linha { display: flex; align-items: center; gap: 7px; }
-.mini-rotulo { font-size: 11px; color: var(--texto-suave); width: 48px; flex: 0 0 auto; }
-.barra { flex: 1; height: 5px; border-radius: 999px; background: rgba(255,255,255,.12); overflow: hidden; }
-.barra-fill { height: 100%; background: var(--dourado); border-radius: 999px; }
+/* Descrição e dica do card (substituíram as barrinhas de doçura/corpo, que
+   não diziam nada sem legenda). Largura total = menos linhas = menos rolagem. */
+.card-desc { font-size: 13.5px; line-height: 1.45; color: var(--texto); }
+.card-dica {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--texto-suave);
+  background: rgba(212, 165, 68, .10);
+  border-left: 3px solid rgba(212, 165, 68, .55);
+  border-radius: 0 10px 10px 0;
+  padding: 8px 12px;
+}
+.card-dica b { color: var(--dourado-claro); font-weight: 700; }
 
 /* ==========================================================================
    ESTADO VAZIO / RODAPÉ
