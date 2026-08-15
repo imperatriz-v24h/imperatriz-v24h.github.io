@@ -130,8 +130,13 @@
 
     const container = document.getElementById("cartazes");
 
+    // Sem parâmetro: cartazes de todas as unidades ATIVAS.
+    // Com "?adega=<slug>" (ex.: qr.html?adega=j-prime-santa-ines): só aquela
+    // unidade, mesmo que ainda esteja inativa — para imprimir antes de abrir.
+    const soEsta = new URLSearchParams(location.search).get("adega");
+
     Object.entries(ADEGAS)
-      .filter(([, info]) => info.ativa !== false)   // só unidades ativas
+      .filter(([slug, info]) => (soEsta ? slug === soEsta : info.ativa !== false))
       .forEach(([slug, info]) => {
         const url = URL_BASE + "?adega=" + slug;
         const dataUrl = gerarQR(url);

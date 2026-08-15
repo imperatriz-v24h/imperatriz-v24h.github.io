@@ -37,7 +37,7 @@ const ADEGAS = {
   "j-prime-santa-ines": {
     nome: "Vinho 24 Horas · J. Prime",
     cidade: "Bairro Santa Inês",
-    ativa: false, // reabilitar quando a 2ª unidade inaugurar
+    ativa: true,
   },
 };
 

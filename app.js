@@ -1,4 +1,4 @@
-/* ==========================================================================
+﻿/* ==========================================================================
    VINHO 24 HORAS — Lógica do app
    ========================================================================== */
 
@@ -110,6 +110,36 @@ async function carregarDados() {
   }
 }
 
+// Reduz um texto a uma chave comparável: sem acentos, minúsculo, com hífens.
+// "J. Prime" e "Bairro Santa Inês" viram "j-prime" e "bairro-santa-ines".
+function chaveTexto(txt) {
+  return String(txt || "")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")   // tira os acentos
+    .toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+}
+
+// Traduz o que está escrito na coluna "adegas" da planilha para o slug da
+// unidade. O dono digita o nome curto da adega no app de estoque ("J. Prime"),
+// então aceitamos slug, nome completo, cidade ou apelido curto.
+function slugDaAdega(valor) {
+  const k = chaveTexto(valor);
+  if (!k) return "";
+  const slugs = Object.keys(ADEGAS);
+
+  for (const s of slugs) {
+    const info = ADEGAS[s];
+    if (k === chaveTexto(s) || k === chaveTexto(info.nome) || k === chaveTexto(info.cidade)) return s;
+  }
+  // Apelido: "J. Prime" → começo do slug "j-prime-santa-ines" ou final do nome.
+  const parciais = slugs.filter(
+    (s) => chaveTexto(s).startsWith(k + "-") || chaveTexto(ADEGAS[s].nome).endsWith("-" + k)
+  );
+  if (parciais.length === 1) return parciais[0];
+
+  console.warn(`Adega "${valor}" da planilha não corresponde a nenhuma unidade.`);
+  return k;
+}
+
 // Converte uma linha da planilha (colunas em texto) num objeto de vinho.
 function normalizarLinha(row) {
   const num = (x) => { const n = parseFloat(String(x).replace(",", ".")); return isNaN(n) ? 0 : n; };
@@ -117,7 +147,7 @@ function normalizarLinha(row) {
   return {
     id: row.id || (row.nome || "").toLowerCase().replace(/\s+/g, "-"),
     codigo: row.codigo || "",
-    adegas: String(row.adegas || "").split(/[;,]/).map((s) => s.trim()).filter(Boolean),
+    adegas: String(row.adegas || "").split(/[;,]/).map(slugDaAdega).filter(Boolean),
     nome: row.nome, produtor: row.produtor, tipo: row.tipo, uva: row.uva,
     pais: row.pais, regiao: row.regiao, safra: row.safra, alcool: num(row.alcool),
     docura: num(row.docura), corpo: num(row.corpo), taninos: num(row.taninos), acidez: num(row.acidez),
