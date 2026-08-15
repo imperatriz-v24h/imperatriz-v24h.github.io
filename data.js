@@ -28,16 +28,22 @@
 // "ativa: false" ESCONDE a unidade da tela de seleção e do gerador de QR
 // (para clientes não verem uma unidade que ainda não abriu). Quando a 2ª
 // unidade inaugurar, basta trocar para "ativa: true".
+//
+// "whatsapp" é o telefone do "Fale conosco" no cartaz daquela unidade
+// (formato internacional: 55 + DDD + número). Sem ele, vale o número geral
+// da empresa (const WHATSAPP em app.js).
 const ADEGAS = {
   "ecopark-iv": {
     nome: "Vinho 24 Horas · Unidade Ecopark IV",
     cidade: "Ecopark IV",
     ativa: true,
+    whatsapp: "5599992340520",   // (99) 99234-0520
   },
   "j-prime-santa-ines": {
     nome: "Vinho 24 Horas · J. Prime",
     cidade: "Bairro Santa Inês",
     ativa: true,
+    whatsapp: "5599984628485",   // (99) 98462-8485
   },
 };
 

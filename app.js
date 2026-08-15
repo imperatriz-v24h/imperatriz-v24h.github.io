@@ -13,7 +13,8 @@
    -------------------------------------------------------------------------- */
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQLsX4VZuxj_ziZXO4UmLKmd3l3ngpKwaNPcDicBCZoB63y5dP0VcVdH93uW731E9uPAPSOe-6pho-5/pub?output=csv";
 
-// WhatsApp de contato da empresa (formato internacional: 55 + DDD + número)
+// WhatsApp de contato geral da empresa (formato internacional: 55 + DDD + número).
+// Só é usado quando a adega não tem um número próprio em data.js (campo "whatsapp").
 const WHATSAPP = "5599992340520";
 
 // ---- Rótulos amigáveis para as escalas (0 a 5) --------------------------
@@ -212,11 +213,13 @@ function abrirCatalogo(slug) {
   $("#tela-catalogo").classList.remove("hidden");
   $("#topo-adega").textContent = ADEGAS[slug].nome;
 
-  // Link do WhatsApp já com uma mensagem que identifica a unidade
+  // Link do WhatsApp da unidade (cada adega pode ter o seu), já com uma
+  // mensagem que identifica de onde o cliente está falando.
   const wpp = $("#btn-wpp");
   if (wpp) {
+    const numero = ADEGAS[slug].whatsapp || WHATSAPP;
     const msg = encodeURIComponent(`Olá! Preciso de ajuda na ${ADEGAS[slug].nome}.`);
-    wpp.href = `https://wa.me/${WHATSAPP}?text=${msg}`;
+    wpp.href = `https://wa.me/${numero}?text=${msg}`;
   }
 
   montarFiltros();
